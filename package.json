@@ -12,11 +12,11 @@
   "author": "Josef Biehler",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^13.7.1",
-    "@types/request": "^2.48.4",
-    "request": "^2.88.2",
-    "ts-node": "^8.6.2",
-    "twitter-lite": "^0.9.4",
-    "typescript": "^3.7.5"
+    "@types/node": "13.7.1",
+    "@types/request": "2.48.4",
+    "request": "2.88.2",
+    "ts-node": "8.6.2",
+    "twitter-lite": "0.9.4",
+    "typescript": "3.7.5"
   }
 }
