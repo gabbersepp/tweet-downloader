@@ -2,20 +2,21 @@ import Twitter from "twitter-lite";
 import * as fs from "fs";
 import { download } from "./Download";
 import * as path from "path";
+import Tweet from "./contracts/Tweet";
 
-export async function getLatestEarningsPost(latestTweetId: string, screenName: string, targetDir: string,
+export async function getLatestEarningsPost(latestTweetId: string, screenName: string, imageTargetDir: string,
     TWTR_CKEY: string, TWTR_CSECRET: string, TWTR_ATOKEN: string, TWTR_ASECRET: string) {
 
     let partsCombined = "";
 
-    targetDir.split("\.").forEach(part => {
+    imageTargetDir.split("\.").forEach(part => {
         partsCombined = path.join(partsCombined, part);
 
         if (!fs.existsSync(partsCombined)) {
             fs.mkdirSync(partsCombined);
         }
     });
-    
+
     const client = new Twitter({
         subdomain: "api",
         consumer_key: TWTR_CKEY,
@@ -24,7 +25,7 @@ export async function getLatestEarningsPost(latestTweetId: string, screenName: s
         access_token_secret: TWTR_ASECRET
     });
 
-    let timeline;
+    let timeline: any[];
     
     timeline = await client.get("statuses/user_timeline", {
         screen_name: screenName,
@@ -49,7 +50,7 @@ export async function getLatestEarningsPost(latestTweetId: string, screenName: s
         return [];
     }
 
-    const results = timeline.map((x: any) => ({
+    const results: Tweet[] = timeline.map((x: any) => ({
         fullText: x.full_text,
         createdAt: x.created_at,
         id: x.id_str,
@@ -63,31 +64,35 @@ export async function getLatestEarningsPost(latestTweetId: string, screenName: s
             continue;
         }
         
-        const path = await download(x.mediaUrl, x.id, targetDir);
+        const path = await download(x.mediaUrl, x.id.toString(), imageTargetDir);
         x.localPath = path;
     }
 
     return results;
 }
 
-export function mergeAndWriteWithExisting(tweetJsonPath: string, newTweets: any[]): any[] {
+export function mergeAndWriteWithExisting(tweetJsonPath: string, newTweets: Tweet[]): Tweet[] {
     const sortedTweets = [...readTweets(tweetJsonPath), ...newTweets]
         .map(x => {
             x.id = BigInt(x.id)
             return x;
         })
-        .sort((a, b) => a.id < b.id ? 1 : -1)
-        .map(x => {
-            x.id = x.id.toString();
-            return x;
-        });
-    fs.writeFileSync(tweetJsonPath, JSON.stringify(sortedTweets));
+        .sort((a, b) => a.id < b.id ? 1 : -1);
+
+    const tweetsToStore = sortedTweets.map(x => {
+        return {
+            ...x,
+            id: x.id.toString()
+        };
+    });
+
+    fs.writeFileSync(tweetJsonPath, JSON.stringify(tweetsToStore));
     return sortedTweets;
 }
 
-export function readTweets(tweetJsonPath: string): any[] {
+export function readTweets(tweetJsonPath: string): Tweet[] {
     if (fs.existsSync(tweetJsonPath)) {
-        return JSON.parse(fs.readFileSync(tweetJsonPath).toString()).map((x: any) => {
+        return JSON.parse(fs.readFileSync(tweetJsonPath).toString()).map((x: Tweet) => {
             x.id = BigInt(x.id);
             return x;        
         });
