@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+      "skipLibCheck": true,
+      "noImplicitAny": true,
+      "noImplicitReturns": true,
+      "outDir": "dist/",
+      "types": [
+        "@types/node"
+      ],
+      "typeRoots": ["./types"],
+      "esModuleInterop": true
+    },
+    "exclude": [
+      "node_modules"
+    ],
+    "include": [
+      "**/*",
+      "./types/index.d.ts",   // declaration file path
+    ]
+  }
+  
