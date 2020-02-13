@@ -1,10 +1,21 @@
 import Twitter from "twitter-lite";
 import * as fs from "fs";
 import { download } from "./Download";
+import * as path from "path";
 
 export async function getLatestEarningsPost(latestTweetId: string, screenName: string, targetDir: string,
     TWTR_CKEY: string, TWTR_CSECRET: string, TWTR_ATOKEN: string, TWTR_ASECRET: string) {
 
+    let partsCombined = "";
+
+    targetDir.split("\.").forEach(part => {
+        partsCombined = path.join(partsCombined, part);
+
+        if (!fs.existsSync(partsCombined)) {
+            fs.mkdirSync(partsCombined);
+        }
+    });
+    
     const client = new Twitter({
         subdomain: "api",
         consumer_key: TWTR_CKEY,

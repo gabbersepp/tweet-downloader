@@ -8,14 +8,15 @@
         "@types/node"
       ],
       "typeRoots": ["./types"],
-      "esModuleInterop": true
+      "esModuleInterop": true,
+      "declaration": true
     },
     "exclude": [
       "node_modules"
     ],
     "include": [
-      "**/*",
-      "./types/index.d.ts",   // declaration file path
+      "./src/**/*",
+      "./types/index.d.ts"
     ]
   }
   

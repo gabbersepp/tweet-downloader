@@ -2,9 +2,12 @@
   "name": "tweet-downloader",
   "version": "0.0.1",
   "description": "easily download the latest tweets from twitter and also download the included images",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test-run": "ts-node --project tsconfig.json --files test/index.ts"
+    "test-run": "ts-node --project tsconfig.json --files test/index.ts",
+    "prepublish": "tsc",
+    "npm-publish": "npm publish"
   },
   "author": "Josef Biehler",
   "license": "MIT",
