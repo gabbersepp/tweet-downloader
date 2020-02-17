@@ -1,9 +1,9 @@
 {
   "name": "tweet-downloader",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "easily download the latest tweets from twitter and also download the included images",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/Index.js",
+  "types": "dist/Index.d.ts",
   "scripts": {
     "test-run": "ts-node --project tsconfig.json --files test/index.ts",
     "prepublish": "tsc",
