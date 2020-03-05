@@ -4,7 +4,7 @@ import { download } from "./Download";
 import * as path from "path";
 import Tweet from "./contracts/Tweet";
 
-export async function getLatestEarningsPost(latestTweetId: string, screenName: string, imageTargetDir: string,
+export async function getLatestTweets(latestTweetId: string, screenName: string, imageTargetDir: string,
     TWTR_CKEY: string, TWTR_CSECRET: string, TWTR_ATOKEN: string, TWTR_ASECRET: string) {
 
     let partsCombined = "";
