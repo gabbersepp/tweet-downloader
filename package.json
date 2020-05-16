@@ -19,6 +19,6 @@
     "@types/node": "13.7.7",
     "@types/request": "2.48.4",
     "ts-node": "8.10.1",
-    "typescript": "3.8.3"
+    "typescript": "3.9.2"
   }
 }
