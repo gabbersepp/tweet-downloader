@@ -13,7 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "request": "^2.88.2",
-    "twitter-lite": "^0.12.0"
+    "twitter-lite": "^0.14.0"
   },
   "devDependencies": {
     "@types/node": "13.13.6",
