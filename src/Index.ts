@@ -5,7 +5,7 @@ import * as path from "path";
 import Tweet from "./contracts/Tweet";
 
 export async function getLatestTweets(latestTweetId: string, screenName: string, imageTargetDir: string,
-    TWTR_CKEY: string, TWTR_CSECRET: string, TWTR_ATOKEN: string, TWTR_ASECRET: string) {
+    TWTR_CKEY: string, TWTR_CSECRET: string, TWTR_ATOKEN: string, TWTR_ASECRET: string, maxCount: number) {
 
     let partsCombined = "";
 
@@ -32,7 +32,7 @@ export async function getLatestTweets(latestTweetId: string, screenName: string,
         exclude_replies: true,
         include_rts: false,
         tweet_mode: "extended",
-        count: 5,
+        count: maxCount,
         since_id: latestTweetId
     });
 
