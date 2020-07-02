@@ -55,7 +55,9 @@ export async function getLatestTweets(latestTweetId: string, screenName: string,
         createdAt: x.created_at,
         id: x.id_str,
         mediaUrl: x.extended_entities ? x.extended_entities.media[0].media_url : null,
-        hashtags: getHashtags(x)
+        hashtags: getHashtags(x),
+        likeCount: x.favorite_count,
+        retweetCount: x.retweet_count
     }));
 
     for (var i = 0; i < results.length; i++) {
