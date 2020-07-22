@@ -67,14 +67,18 @@ export function mergeAndWriteWithExisting(tweetJsonPath: string, newTweets: Twee
         })
         .sort((a, b) => a.id < b.id ? 1 : -1);
 
-        // filter out duplicates
-        sortedTweets = sortedTweets.map((t: Tweet, i: number, all: Tweet[]) => {
+    sortedTweets = sortedTweets.map(t => {
+        const newTweet = newTweets.find(x => x.id == t.id);
+        return newTweet || t; 
+    })
+    // filter out duplicates
+    sortedTweets.map((t: Tweet, i: number, all: Tweet[]) => {
         if (i > 1 && t.id === all[i-1].id) {
             return null;
         }
 
         return t;
-    })
+    }).filter(x => x);
 
     const tweetsToStore = sortedTweets.map(x => {
         return {
