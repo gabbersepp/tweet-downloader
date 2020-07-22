@@ -60,12 +60,21 @@ export async function getLatestTweets(latestTweetId: string, screenName: string,
 }
 
 export function mergeAndWriteWithExisting(tweetJsonPath: string, newTweets: Tweet[]): Tweet[] {
-    const sortedTweets = [...readTweets(tweetJsonPath), ...newTweets]
+    let sortedTweets = [...readTweets(tweetJsonPath), ...newTweets]
         .map(x => {
             x.id = BigInt(x.id)
             return x;
         })
         .sort((a, b) => a.id < b.id ? 1 : -1);
+
+        // filter out duplicates
+        sortedTweets = sortedTweets.map((t: Tweet, i: number, all: Tweet[]) => {
+        if (i > 1 && t.id === all[i-1].id) {
+            return null;
+        }
+
+        return t;
+    })
 
     const tweetsToStore = sortedTweets.map(x => {
         return {
@@ -73,6 +82,8 @@ export function mergeAndWriteWithExisting(tweetJsonPath: string, newTweets: Twee
             id: x.id.toString()
         };
     });
+
+
 
     fs.writeFileSync(tweetJsonPath, JSON.stringify(tweetsToStore));
     return sortedTweets;
