@@ -60,25 +60,23 @@ export async function getLatestTweets(latestTweetId: string, screenName: string,
 }
 
 export function mergeAndWriteWithExisting(tweetJsonPath: string, newTweets: Tweet[]): Tweet[] {
-    let sortedTweets = [...readTweets(tweetJsonPath), ...newTweets]
+    const hashMap: any = {};
+
+    [...readTweets(tweetJsonPath), ...newTweets].map(t => {
+        const newTweet = newTweets.find(x => x.id == t.id);
+        return newTweet || t; 
+    })
+    // filter out duplicates
+    .forEach((t: Tweet) => {
+        hashMap[t.id.toString()] = t;
+    });
+
+    let sortedTweets = Object.keys(hashMap).map(x => hashMap[x])
         .map(x => {
             x.id = BigInt(x.id)
             return x;
         })
         .sort((a, b) => a.id < b.id ? 1 : -1);
-
-    sortedTweets = sortedTweets.map(t => {
-        const newTweet = newTweets.find(x => x.id == t.id);
-        return newTweet || t; 
-    })
-    // filter out duplicates
-    sortedTweets.map((t: Tweet, i: number, all: Tweet[]) => {
-        if (i > 1 && t.id === all[i-1].id) {
-            return null;
-        }
-
-        return t;
-    }).filter(x => x);
 
     const tweetsToStore = sortedTweets.map(x => {
         return {
@@ -86,8 +84,6 @@ export function mergeAndWriteWithExisting(tweetJsonPath: string, newTweets: Twee
             id: x.id.toString()
         };
     });
-
-
 
     fs.writeFileSync(tweetJsonPath, JSON.stringify(tweetsToStore));
     return sortedTweets;
