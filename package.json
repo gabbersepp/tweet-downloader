@@ -1,6 +1,6 @@
 {
   "name": "tweet-downloader",
-  "version": "1.3.2",
+  "version": "1.3.4",
   "description": "easily download the latest tweets from twitter and also download the included images",
   "main": "dist/Index.js",
   "types": "dist/Index.d.ts",
