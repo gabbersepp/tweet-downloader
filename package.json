@@ -16,7 +16,7 @@
     "twitter-lite": "^0.14.0"
   },
   "devDependencies": {
-    "@types/node": "13.13.21",
+    "@types/node": "13.13.36",
     "@types/request": "2.48.5",
     "ts-node": "9.0.0",
     "typescript": "4.1.2"
